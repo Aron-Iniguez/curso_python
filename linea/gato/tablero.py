@@ -80,6 +80,26 @@ def checa_winner(simbolos:dict, combinaciones:list):
             return simbolos[c[0]]
     return None    
 
+def actualiza_score(score:dict,ganador:str):
+    ''' Actualiza score '''
+    X = score["O"]
+    O = score["O"]
+    if g is not None:
+        print(f'El ganador es {g}')
+        if g == 'X':
+            X["G"] += 1
+            O["P"] += 1
+        elif g == 'O':
+            X["P"] += 1
+            O["G"] += 1
+        else:
+            X["E"] += 1
+            O["E"] += 1
+    else:
+        print('Empate')
+        X["E"] += 1
+        O["E"] += 1
+
 if __name__ == '__main__':
         numeros = [str(i) for i in range(1,10)]
         dsimbolos = {x:x for x in numeros}
