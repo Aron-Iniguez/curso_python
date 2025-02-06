@@ -84,12 +84,12 @@ def actualiza_score(score:dict,ganador:str):
     ''' Actualiza score '''
     X = score["O"]
     O = score["O"]
-    if g is not None:
-        print(f'El ganador es {g}')
-        if g == 'X':
+    if ganador is not None:
+        print(f'El ganador es {ganador}')
+        if ganador == 'X':
             X["G"] += 1
             O["P"] += 1
-        elif g == 'O':
+        elif ganador == 'O':
             X["P"] += 1
             O["G"] += 1
         else:
@@ -99,6 +99,13 @@ def actualiza_score(score:dict,ganador:str):
         print('Empate')
         X["E"] += 1
         O["E"] += 1
+
+def despliega_tablero(score:dict):
+    ''' Despliega el tablero de score '''
+    print(f'''
+    X | G: {score["X"] ["G"]} | P: {score["X"] ["P"]} | E: {score["X"] ["E"]}
+    O | G: {score["X"] ["G"]} | P: {score["X"] ["P"]} | E: {score["X"] ["E"]}
+        ''')
 
 if __name__ == '__main__':
         numeros = [str(i) for i in range(1,10)]

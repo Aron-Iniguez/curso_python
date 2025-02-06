@@ -15,6 +15,10 @@ def main():
         dsimbolos = {x:x for x in numeros}
         g = tablero.juego(dsimbolos)
         tablero.actualiza_score(score,g)
+        tablero.despliega_tablero(score)
+        seguir = input('¿Quieres seguir? (s/n):')
+        if seguir.lower() == 'n':
+            corriendo = False
 
 
 if __name__ == '__main__':
