@@ -1,0 +1,59 @@
+'''
+Simulación de un ajedrez en terminal. 
+Poryecto personal. 
+'''
+
+# Definir las piezas
+piezas_blancas = {
+    'peon': 'B_p',
+    'caballo': 'B_c',
+    'alfil': 'B_a',
+    'torre': 'B_t',
+    'reina': 'B_r',
+    'rey': 'B_k'
+}
+
+piezas_negras = {
+    'peon': 'N_p',
+    'caballo': 'N_c',
+    'alfil': 'N_a',
+    'torre': 'N_t',
+    'reina': 'N_r',
+    'rey': 'N_k'
+}
+
+# Crear el tablero vacío
+tablero = [[None for _ in range(8)] for _ in range(8)]
+
+# Colocar las piezas blancas
+tablero[0] = [
+    piezas_blancas['torre'], piezas_blancas['caballo'], piezas_blancas['alfil'], piezas_blancas['reina'],
+    piezas_blancas['rey'], piezas_blancas['alfil'], piezas_blancas['caballo'], piezas_blancas['torre']
+]
+tablero[1] = [piezas_blancas['peon'] for _ in range(8)]
+
+# Colocar las piezas negras
+tablero[6] = [piezas_negras['peon'] for _ in range(8)]
+tablero[7] = [
+    piezas_negras['torre'], piezas_negras['caballo'], piezas_negras['alfil'], piezas_negras['reina'],
+    piezas_negras['rey'], piezas_negras['alfil'], piezas_negras['caballo'], piezas_negras['torre']
+]
+
+# Función para imprimir el tablero
+def imprimir_tablero(tablero):
+    for i in range(8):
+        for j in range(8):
+            if (i + j) % 2 == 0:
+                # Casilla blanca (fondo blanco)
+                print("\033[47m\033[30m", end="")
+            else:
+                # Casilla negra (fondo negro)
+                print("\033[40m\033[37m", end="")
+            
+            pieza = tablero[i][j] if tablero[i][j] else "   "
+            print(f" {pieza} ", end="")
+            print("\033[0m", end="")  # Resetear colores
+        print()  # Nueva línea después de cada fila
+
+# Imprimir el tablero
+imprimir_tablero(tablero)
