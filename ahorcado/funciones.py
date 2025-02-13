@@ -7,10 +7,9 @@ from random import choice
 
 def carga_archivo_texto(archivo:str)->list:
     '''
-    Carga un archivo de texto y devuelve una
-    lista con las oraciones del archivo
+    Carga un archivo de texto y devuelve una lista con las oraciones del archivo
     '''
-    with open(archivo, 'r', encoding='utf=8') as file:
+    with open(archivo, 'r',encoding='utf-8') as file:
         oraciones = file.readlines()
     return oraciones
 
@@ -34,28 +33,33 @@ def despliega_plantilla(diccionario:dict, nivel:int):
 
 def obten_palabras(lista:list)->list:
     '''
-    Obtiene las palabas de un texto
+    Obtiene las palabras de un texto
     '''
-    texto =' '.join(lista_oraciones[120:])
-    palabras =  texto.split()
-    minusculas = [palabras.lower() for palabra in palabras]
+    texto = ' '.join(lista[120:])
+    palabras = texto.split()
+    # convertimos a minusculas
+    minusculas = [palabra.lower() for palabra in palabras]
     set_palabras = set(minusculas)
     # removemos signos de puntuación y caracteres especiales
-    set_palabras = {palabra.strip(string.puntuacion) for palabra in set_palabras}
-    #removemos número, paréntesis, corchetes y otros caracteres
+    set_palabras = {palabra.strip(string.punctuation) for palabra in set_palabras}
+    # removemos números, paréntesis, corchetes y otros caracteres
     set_palabras = {palabra for palabra in set_palabras if palabra.isalpha()}
     # removemos acentos
     set_palabras = {unicodedata.normalize('NFKD', palabra).encode('ascii', 'ignore').decode('ascii') for palabra in set_palabras}
     return list(set_palabras)
 
 def adivina_letra(abc:dict, palabra:str, letras_adivinadas:set, turnos:int):
-    palabra_oculta = " "
+    '''
+    Adivina una letra de una palabra
+    '''
+    palabra_oculta = ""
     for letra in palabra:
         if letra in letras_adivinadas:
             palabra_oculta += letra
         else:
             palabra_oculta += "_"
     print(f'Tienes {turnos} oportunidades de fallar')
+    print(f'El abecedario es: {abc}')
     print(f'La palabra es: {palabra_oculta}')
     letra = input('Ingresa una letra: ')
     letra = letra.lower()
@@ -63,7 +67,7 @@ def adivina_letra(abc:dict, palabra:str, letras_adivinadas:set, turnos:int):
         if abc[letra] == "*":
             print('Ya adivinaste esa letra')
         else:
-            abc[letra] = "*"
+            abc[letra]= "*"
             if letra in palabra:
                 letras_adivinadas.add(letra)
             else:
@@ -77,8 +81,8 @@ if __name__ == '__main__':
     print(len(lista_palabras))
     p = choice(lista_palabras)
     print(p)
-    abecedario = {letra:letra for letra in string.ascii_lowercase}
+    abcdario = {letra:letra for letra in string.ascii_lowercase}
     adivinadas = set()
     t = 5 # oportunidades
-    adivina_letra(abecedario, p, adivinadas, t)
-    adivina_letra(abecedario, p, adivinadas, t)
+    adivina_letra(abcdario, p, adivinadas, t)
+    adivina_letra(abcdario, p, adivinadas, t)
