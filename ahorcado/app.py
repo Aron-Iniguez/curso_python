@@ -35,5 +35,7 @@ if __name__ == '__main__':
     parser.add_argument('-a', '--archivo', help='Archivo de texto con palabras a adivinar', default='./datos/pg15532.txt')
     args = parser.parse_args()
     archivo = args.archivo
-    #archivo = './datos/pg15532.txt'
-    main(archivo)
+    if os.stat(arhivo) is False:
+        print(f'El archivo {archivo} no existe')
+    else:
+        main(archivo)
