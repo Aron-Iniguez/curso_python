@@ -35,5 +35,27 @@ def libro(id:str):
     else:
         return render_template('libro.html', libro=None)
 
+@app.route('/letra/', methods=['GET'])
+def plantilla_letra():
+    ''' Página de busqueda por letra '''
+    return render_template('letra.html', lista_libros=[])
+
+@app.route('/letra/<letra>', methods=['GET'])
+def busqueda_letra(letra:str):
+    ''' Página de busqueda por letra '''
+    resultado = fn.libros_empieza_con(lista_libros, letra)
+    return render_template('letra.html', lista_libros=resultado)
+
+@app.route('/autor', methods =['GET','POST'])
+def busqueda_autor():
+    ''' Página de búsqueda por título '''
+    resultado = []
+    if request.method == 'POST':
+        autor = request.form['autor']
+        resultado = fn.busca_en_diccionario(diccionario_titulos, autor)
+        print(autor)
+        print(resultado)
+    return render_template('autor.html', lista_libros=resultado)
+
 if __name__ == '__main__':
     app.run(debug=True)
