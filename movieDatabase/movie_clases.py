@@ -182,6 +182,10 @@ class SistemaCine:
     
     def buscar_actores_por_nombre(self, nombre_parcial):
         return [actor for actor in self.actores.values() if nombre_parcial.lower() in actor.nombre.lower()]
+
+    def obtener_personajes_por_estrella(self, id_estrella):
+        self.idx_actor
+        
     
 if __name__ == '__main__':
     sistema = SistemaCine()
