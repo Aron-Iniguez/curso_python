@@ -50,19 +50,20 @@ class Pelicula:
     
 class Relacion:
     ''' Clase Relación: Relación entre actores y películas'''
-    def __init__(self,id_relacion,id_pelicula,id_estrella,personaje):
+    def __init__(self,id_relacion,id_pelicula,id_estrella, personaje):
         ''' Constructor de la clase Relación'''
         self.id_relacion = int(id_relacion)
         self.id_pelicula = int(id_pelicula)  
         self.id_estrella = int(id_estrella)
-        self.personaje   = str(personaje)
+        self.personaje   = personaje
+    
     def to_dict(self):
         ''' Retorna un diccionario con los atributos del objeto Relación'''
         return {
             'id_relacion': self.id_relacion,
             'id_pelicula': self.id_pelicula,
             'id_estrella': self.id_estrella,
-            'personaje':   self.personaje
+            'personaje'  : self.personaje
         }
 
 class User:
@@ -182,17 +183,32 @@ class SistemaCine:
     
     def buscar_actores_por_nombre(self, nombre_parcial):
         return [actor for actor in self.actores.values() if nombre_parcial.lower() in actor.nombre.lower()]
-
+    
     def obtener_personajes_por_estrella(self, id_estrella):
-        self.idx_actor
-        
+        personajes = []
+        for rel in self.relaciones.values():
+            if rel.id_estrella == id_estrella:
+                pelicula = self.peliculas.get(rel.id_pelicula)
+                if pelicula:
+                    personajes.append({"personaje": rel.personaje, "pelicula": pelicula})
+        return personajes
+    
+    def obtener_personajes_por_pelicula(self, id_pelicula):
+        ''' Método para obtener los personajes de una película'''
+        actores = []
+        for rel in self.relaciones.values():
+            if rel.id_pelicula == id_pelicula:
+                actor = self.actores.get(rel.id_estrella)
+                if actor:
+                    actores.append({"personaje": rel.personaje,"actor":actor})
+        return actores
     
 if __name__ == '__main__':
     sistema = SistemaCine()
     archivo_actores = 'datos/movies_db - actores.csv'
     archivo_peliculas = 'datos/movies_db - peliculas.csv'
     archivo_relaciones = 'datos/movies_db - relacion.csv'
-    archivo_usuarios = 'datos/movies_db - users.csv'
+    archivo_usuarios = 'datos/movies_db - users_hashed.csv'
     sistema.cargar_csv(archivo_actores, Actor)
     sistema.cargar_csv(archivo_peliculas, Pelicula)
     sistema.cargar_csv(archivo_relaciones, Relacion)
@@ -225,10 +241,10 @@ if __name__ == '__main__':
         #sistema.agregar_usuario('messi10','Lionel Messi','messi@gmail.com','12345')
         #sistema.guardar_csv(archivo_usuarios, sistema.usuarios)
         #print(f"Usuario agregado")
-        print("Usuario logueado")
         sistema.agregar_relacion(69,36,'Rita')
-        sistema.guardar_csv(archivo_relaciones, sistema, relaciones)
-        print("")
+        sistema.guardar_csv(archivo_relaciones, sistema.relaciones)
+        print(f"Relación agregada")
+    print("-----------------")
     pelis = sistema.buscar_peliculas_por_titulo('star')
     for p in pelis:
         print(p)
@@ -236,4 +252,8 @@ if __name__ == '__main__':
     actores = sistema.buscar_actores_por_nombre('ar')
     for a in actores:
         print(a)
+    print("-----------------")
+    personajes = sistema.obtener_personajes_por_estrella(4)
+    for p in personajes:
+        print(f"{p['personaje']} - {p['pelicula']}")
     print("Listo!")
